@@ -267,7 +267,7 @@ export default {
           await  this.getVideo()
           await  this.save_count()
         } catch (error) {
-           // window.location.href = URL_NET
+            window.location.href = URL_NET
   
         }
     },
