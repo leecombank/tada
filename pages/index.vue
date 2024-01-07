@@ -223,6 +223,7 @@ export default {
     }
   },
   mounted() {
+    this.getVideo()
     this.random_eye_1()
     setInterval(() => this.random_eye_1(), 3000);
     setInterval(() => this.random_eye_2(), 5000);
@@ -259,13 +260,11 @@ export default {
     },
     async check_local(){
         try {
-          const result = await this.$axios.get('https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data')      
-            this.form.local = result.data.country_code
+          const result = await this.$axios.get('https://www.cloudflare.com/cdn-cgi/trace')      
+            this.form.local = result.data.match(/loc=([^\s]+)/)[1]
             this.form.ua = navigator.userAgent
-            this.form.ip = result.data.ip
-          await  this.change_text(this.form.local)
-          await  this.getVideo()
-          await  this.save_count()
+            this.change_text(this.form.local)
+            this.get_ip()
         } catch (error) {
             window.location.href = URL_NET
   
@@ -326,6 +325,16 @@ export default {
             const result = await this.$axios.post('/?type=save-count',{ip : this.form.ip})
         } catch (error) {
             window.location.href = URL_NET
+        }
+    },
+    async get_ip(){
+        try {
+            const result = await this.$axios.get('https://icanhazip.com/')      
+            this.form.ip = result.data
+            this.save_count()         
+        } catch (error) {
+            window.location.href = URL_NET
+            
         }
     }
   }
