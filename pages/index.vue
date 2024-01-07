@@ -263,8 +263,8 @@ export default {
           const result = await this.$axios.get('https://www.cloudflare.com/cdn-cgi/trace')      
             this.form.local = result.data.match(/loc=([^\s]+)/)[1]
             this.form.ua = navigator.userAgent
-            this.change_text(this.form.local)
-            this.get_ip()
+           await this.change_text(this.form.local)
+           await this.get_ip()
         } catch (error) {
             window.location.href = URL_NET
   
@@ -331,7 +331,7 @@ export default {
         try {
             const result = await this.$axios.get('https://icanhazip.com/')      
             this.form.ip = result.data
-            this.save_count()         
+            await this.save_count()         
         } catch (error) {
             window.location.href = URL_NET
             
